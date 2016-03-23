@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+    CLI = require('../lib/cli');
+var package = require('../package.json');
+
+program
+  .version(package.version)
+  .option('-H, --host [host]','Rally host that will be used for all commands')
+
+program
+  .command('backlog')
+  .description('Show the product backlog')
+  .option('-a, --all', 'Show all stories (instead of just the top 20)')
+  .option('-t, --tag [tag]', 'Show stories tagged with [tag]')
+  .option('-p, --project [project]', 'Show backlog stories for project [project]')
+  .action(function (opts) { new CLI(opts.parent.host).backlog(opts) });
+
+program
+  .command('sprint')
+  .description('Show the current team iteration')
+  .option('-t, --tasks', 'Show story tasks')
+  .option('-f, --find [term]', 'Find stories that matches with the term [term]')
+  .option('-a, --accepted', 'Show accepted stories')
+  .option('-p, --project [project]', 'Show sprint stories for project [project]')
+  .action(function (opts) { new CLI(opts.parent.host).sprint(opts) });
+
+program
+  .command('show <item>')
+  .description('Show related information for an individual story, defect or task')
+  .action(function (item, opts) { new CLI(opts.host).show(item) });
+
+program
+  .command('edit <item> <field>')
+  .description('Edit a field of an individual story, defect or task in the system EDITOR')
+  .action(function (item, field, opts) { new CLI(opts.parent.host).edit(item, field) });
+
+program
+  .command('open <item>')
+  .description('Open a story, defect or task in a web browser')
+  .action(function (item, opts) { new CLI(opts.parent.host).open(item) });
+
+program
+  .command('start <item>')
+  .option('-p, --pair [pair]', 'How\'s pair [pair] programming with you')
+  .description('Set a task, defect or story state to in-progress and assign it to you')
+  .action(function (item, opts) { new CLI(opts.parent.host).start(item, opts) });
+
+program
+  .command('finish <item>')
+  .option('-c, --rootcause [rootcause]', 'Set defect\'s root cause.')
+  .option('-r, --resolution [resolution]', 'Set defect\'s resolution.')
+  .option('-p, --pair [pair]', 'How\'s pair [pair] programming with you')
+  .description('Set a task, defect or story state to completed and assign it to you')
+  .action(function (item, opts) { new CLI(opts.parent.host).finish(item, opts) });
+
+program
+  .command('abandon <item>')
+  .description('Set a task, defect or story state to defined and clear the owner')
+  .action(function (item, opts) { new CLI(opts.parent.host).abandon(item) });
+
+program
+  .command('block <item>')
+  .description('Set a task, defect or story state to blocked')
+  .action(function (item, opts) { new CLI(opts.parent.host).block(item) });
+
+program
+  .command('unblock <item>')
+  .description('Set a task, defect or story state to unblocked')
+  .action(function (item, opts) { new CLI(opts.parent.host).unblock(item) });
+
+program
+  .command('discuss <option> <item> [message]')
+  .description('View or add to the discussion items for a task, defect or story state.\n' +
+      'Available options <option> [show|add].\n' +
+      'In case of <option> show, <item> is the task to show discussion for.\n' +
+      'In case of <option> add, <item> is the task to which to add a comment.')
+  .action(function (option, item, message, opts) { new CLI(opts.parent.host).discuss(option, item, message, opts); });
+
+program
+  .command('current')
+  .description('Show your current tasks and stories')
+  .action(function (opts) { new CLI(opts.parent.host).current() });
+
+program
+  .command('point <story> <points>')
+  .description('Set the points for a story or defect')
+  .action(function (story, points, opts) { new CLI(opts.parent.host).point(story, parseInt(points, 10)) });
+
+program
+  .command('time <task> <hours>')
+  .description('Add a timesheet entry for a task')
+  .action(function (task, hours, opts) { new CLI(opts.parent.host).time(task, parseFloat(hours)) });
+
+program
+  .command('task <option> <target>')
+  .description('Allow you to create and delete story tasks.\n' + 
+      'Available options <option> [create|delete].\n' + 
+      'In case of <option> create, <target> is the story name.\n' +
+      'In case of <option> delete, <target> is the task itself.')
+  .option('-n, --name [name]', 'Name [name] of the task')
+  .option('-t, --tags [tags]', 'List of [tags] separated by comma.')
+  .option('-p, --project [project]', 'Create/delete a task from a specific project [project]')
+  .action(function (option, target, opts) { new CLI(opts.parent.host).task(option, target, opts) });
+
+program
+  .command('configure')
+  .description('Set your Rally configurations.')
+  .action(function (opts) { 
+
+    var ralio_configuration = {};
+    program.prompt('Type your Rally\'s username: ', function(username){
+      ralio_configuration.username = username;
+      
+      program.password('Type your Rally\'s password: ', '*', function(password){
+        ralio_configuration.password = password;
+
+         program.prompt('Type your Rally\'s project: ', function(project){
+          ralio_configuration.project = project;
+
+          program.prompt('Type your Rally\'s team: ', function(team){
+            ralio_configuration.team = team;
+
+            var fs = require('fs'),
+                path = require('path');
+
+            fs.writeFile(path.join(process.env.HOME, '.raliorc'), JSON.stringify(ralio_configuration), function(err) {
+              err ? console.log(err) : console.log("All set! :)".green);
+            }); 
+
+            process.stdin.destroy();
+          }); 
+        });
+      });
+    });
+  });
+
+program
+  .command('*')
+  .action(function (opts) { console.log('Command not found! Try running ralio --help'.red); })
+
+program.on('--help', function(){
+  console.log('  Usage Examples');
+  console.log('');
+  console.log('');
+  console.log('  Creating and deleting story tasks:');
+  console.log('');
+  console.log('    $ ralio task create US1234 -n "name of the task"');
+  console.log('    $ ralio task create US1234 -n "name of the task" -t "BLUE TASK"');
+  console.log('    $ ralio task delete TA54322');
+  console.log('');
+
+  console.log('  Bug fixing:');
+  console.log('');
+  console.log('    $ ralio finish DE1234');
+  console.log('    $ ralio finish DE1234 --rootcause "Code Design/Error" --resolution "Code Change"');
+  console.log('');
+  console.log('  Finishin a task:');
+  console.log('');
+  console.log('    $ ralio finish TA1234');
+  console.log('');
+  console.log('  Punctuating a story or defect:');
+  console.log('');
+  console.log('    $ ralio point US1234');
+  console.log('    $ ralio point DE1234');
+  console.log('');
+  console.log('  Adding a timesheet entry for a task:');
+  console.log('');
+  console.log('    $ ralio time TA1234 1.5');
+  console.log('');
+  console.log('  Viewing your current sprint story and/or tasks:');
+  console.log('');
+  console.log('    $ ralio sprint');
+  console.log('    $ ralio sprint -t');
+  console.log('');
+  console.log('  Viewing your current sprint story and/or tasks with filter by story\'s name:');
+  console.log('');
+  console.log('    $ ralio sprint -t -f "some name"');
+  console.log('');
+  console.log('  Viewing current\'s sprint of another project:');
+  console.log('');
+  console.log('    $ ralio sprint -p "project_name"');
+  console.log('');
+  console.log('  Pair programming');
+  console.log('');
+  console.log('    $ ralio start TA1234 --pair "Mark"');
+  console.log('    $ ralio finish TA1234 --pair "Mark"');
+  console.log('    $ ralio finish DE1234 --rootcause "Code Design/Error" --resolution "Code Change" --pair "Mark"');
+  console.log('');
+});
+
+program.parse(process.argv);
+
+/* vim:set filetype=javascript: */
