@@ -18,10 +18,9 @@ var restApi = rally({
 });
 var currentItr = config.currentItr;
 // Available in rally URL:
-// https://rally1.rallydev.com/#/47117491705ud/iterationstatus
+// https://rally1.rallydev.com/#/47117499999ud/iterationstatus
 var project = config.project;
 var user = config.user;
-var rallyDefaultUrl = config.rallyDefaultUrl;
 var uiLaunchCommand = config.uiLaunchCommand;
 
 var hr = '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
@@ -49,60 +48,57 @@ var listIterationTasks = function(iteration) {
     console.log('Fetching iteration tasks...');
     // .and('FormattedID', '=', 'TA198752')
     getTasks(
-            queryUtils.where('Owner.Name', '=', user).and('Iteration.Name', '=', iteration ? iteration : currentItr),
-            function(error, result) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    // console.log(result.Results);
-                    var totalEstimate = 0;
-                    var totalTodo = 0;
-                    console.log(hr);
-                    console.log('         | Est | Todo | Act |');
-                    console.log(hr);
-                    for ( var i in result.Results) {
-                        var aResult = result.Results[i];
-                        // console.log(aResult);
-                        console.log('%s | %s | %s | %s | %s | %s | %s | %s', aResult.FormattedID, _.padEnd(
-                                aResult.Estimate, 3), _.padEnd(aResult.ToDo, 4), _.padEnd(aResult.Actuals, 3),
-                                colorizeOnState(_.padEnd(aResult.State, 12), aResult.State), _.padEnd(_.truncate(
-                                        aResult.Name, {
-                                            'length' : 70
-                                        }), 70), aResult.WorkProduct.FormattedID, _.padEnd(_.truncate(
-                                        aResult.WorkProduct.Name, {
-                                            'length' : 70
-                                        }), 70));
-                        totalEstimate += aResult.Estimate;
-                        totalTodo += aResult.ToDo;
-                    }
-                    console.log(hr);
-                    // Fetch the iteration to check status
-                    restApi
-                            .get(
-                                    {
-                                        ref : result.Results[0].Iteration._ref,
-                                        fetch : [ 'Name', 'Description', 'EndDate', 'StartDate' ],
-                                        scope : {
-                                            project : project
-                                        }
-                                    },
-                                    function(error, result) {
-                                        var s = moment(result.Object.StartDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
-                                        var e = moment(result.Object.EndDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
-
-                                        var c = completion(totalEstimate, totalTodo, s, e);
-                                        console
-                                                .log(
-                                                        'Total    | %s | %s | (% Completion: %s) | [%s <--> %s | Total: %s | Remaining: %s | %Time Completed: %s%]',
-                                                        _.padEnd(totalEstimate, 3), _.padEnd(totalTodo, 3),
-                                                        c.remainingPctFormatted, s.format('ddd, MMM Do'), e
-                                                                .format('ddd, MMM Do'), c.total, c.remaining,
-                                                        c.remainingPct);
-                                        console.log(hr);
-                                    });
-
+        queryUtils.where('Owner.Name', '=', user).and('Iteration.Name', '=', iteration ? iteration : currentItr),
+        function(error, result) {
+            if (error) {
+                console.log(error);
+            } else {
+                // console.log(result.Results);
+                var totalEstimate = 0;
+                var totalTodo = 0;
+                console.log(hr);
+                console.log('         | Est | Todo | Act |');
+                console.log(hr);
+                for ( var i in result.Results) {
+                    var aResult = result.Results[i];
+                    // console.log(aResult);
+                    console.log('%s | %s | %s | %s | %s | %s | %s | %s', aResult.FormattedID, _.padEnd(
+                        aResult.Estimate, 3), _.padEnd(aResult.ToDo, 4), _.padEnd(aResult.Actuals, 3), colorizeOnState(
+                        _.padEnd(aResult.State, 12), aResult.State), _.padEnd(_.truncate(aResult.Name, {
+                        'length' : 70
+                    }), 70), aResult.WorkProduct.FormattedID, _.padEnd(_.truncate(aResult.WorkProduct.Name, {
+                        'length' : 70
+                    }), 70));
+                    totalEstimate += aResult.Estimate;
+                    totalTodo += aResult.ToDo;
                 }
-            });
+                console.log(hr);
+                // Fetch the iteration to check status
+                restApi
+                    .get(
+                        {
+                            ref : result.Results[0].Iteration._ref,
+                            fetch : [ 'Name', 'Description', 'EndDate', 'StartDate' ],
+                            scope : {
+                                project : project
+                            }
+                        },
+                        function(error, result) {
+                            var s = moment(result.Object.StartDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
+                            var e = moment(result.Object.EndDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
+
+                            var c = completion(totalEstimate, totalTodo, s, e);
+                            console
+                                .log(
+                                    'Total    | %s | %s | (% Completion: %s) | [%s <--> %s | Total: %s | Remaining: %s | %Time Completed: %s%]',
+                                    _.padEnd(totalEstimate, 3), _.padEnd(totalTodo, 3), c.remainingPctFormatted, s
+                                        .format('ddd, MMM Do'), e.format('ddd, MMM Do'), c.total, c.remaining,
+                                    c.remainingPct);
+                            console.log(hr);
+                        });
+
+            }
+        });
 };
 
 var completion = function(estimate, todo, s, e) {
@@ -116,7 +112,7 @@ var completion = function(estimate, todo, s, e) {
     c.remaining = remaining;
     c.remainingPct = remainingPct;
     c.remainingPctFormatted = completion >= remainingPct ? '\x1b[32m' + completion + '%\x1b[0m' : '\x1b[33m'
-            + completion + '%\x1b[0m';
+        + completion + '%\x1b[0m';
     return c;
 };
 
@@ -188,11 +184,23 @@ var showTask = function(params) {
 
 var argv = require('minimist')(process.argv.slice(2));
 switch (argv._[0]) {
+case 'help':
+case 'h':
+    console.log('Usage: rly [ <command> ] [<args>]');
+    console.log('\nMinimal CLI for rally\n');
+    console.log('Available commands:');
+    console.log('  it | iteration # View and change current iteration');
+    console.log('  t  | task      # View and edit tasks');
+    console.log('  o  | open      # Open rally in browser');
+    console.log();
+    break;
 case 'task':
 case 't':
     if (argv.h || !argv.i) {
-        console.log('usage: rly task -i ID [ -t todo_hrs ] [ -e estimate ]');
-        console.log('\t rly task -i TA12345 -t 3 -e 5 ');
+        console.log('Usage: rly task -i ID [ -t todo_hrs ] [ -e estimate ] [ -a actuals ]');
+        console.log('\n View task details:\n  rly task -i TA12345');
+        console.log('\n Change task todo, estimate and actuals:\n  rly task -i TA12345 -t 3 -e 5 -a 3');
+        console.log();
         break;
     } else if (!_.isNil(argv.t) || !_.isNil(argv.e) || !_.isNil(argv.a)) {
         updateTask(argv);

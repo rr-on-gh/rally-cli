@@ -1,6 +1,6 @@
 {
   "name": "rally-cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo 'Create an alias to run index.js from CLI.\n\te.g.: alias rly=\"node /location/of/index.js\" \n\t      rly help\n'"
   },
   "author": "",
   "license": "ISC"

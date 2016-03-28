@@ -1,8 +1,7 @@
 {
-  "apiKey": "get api key from here: https://rally1.rallydev.com/login/accounts/index.html#/keys",
-  "currentItr": "PI 2 - Iteration 5",
-  "project": "/project/47117491705",
-  "user": "rakrao@cisco.com",
-  "rallyDefaultUrl": "https://rally1.rallydev.com/#/47117491705ud/custom/47826050218",
-  "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491705ud/custom/47826050218"
+  "apiKey": "Refer README.md",
+  "currentItr": "Refer README.md",
+  "project": "Refer README.md",
+  "user": "Refer README.md",
+  "uiLaunchCommand": "Refer README.md"
 }
