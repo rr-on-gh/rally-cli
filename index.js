@@ -187,7 +187,7 @@ var holidays = function(params) {
     _.forEach(config.holidays, function(v, i) {
         console.log(v);
     })
-    console.log('Update the config.json to add or remove holidays');
+    console.log('Update the %s to add or remove holidays', (__dirname + '/config.json'));
 }
 
 var days = function(start, end) {
