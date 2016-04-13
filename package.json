@@ -8,8 +8,7 @@
     "lodash": "^4.6.1",
     "minimist": "^1.2.0",
     "moment": "^2.12.0",
-    "moment-business": "^2.0.0",
-    "moment-business-days": "0.0.10",
+    "moment-weekday-calc": "^1.1.0",
     "rally": "^0.2.0"
   },
   "devDependencies": {},

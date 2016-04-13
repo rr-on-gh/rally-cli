@@ -3,5 +3,6 @@
   "currentItr": "Refer README.md",
   "project": "Refer README.md",
   "user": "Refer README.md",
-  "uiLaunchCommand": "Refer README.md"
+  "uiLaunchCommand": "Refer README.md",
+  "holidays": ["15 Aug 2015", "26 Jan 2016", "14 Apr 2016", "15 Apr 2016"]
 }

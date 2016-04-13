@@ -3,7 +3,7 @@ var _ = require('lodash');
 var exec = require('child_process').exec;
 var htmlToText = require('html-to-text');
 var moment = require('moment');
-var mb = require('moment-business');
+var mb = require('moment-weekday-calc');
 var fs = require('fs');
 
 var queryUtils = rally.util.query;
@@ -103,8 +103,8 @@ var listIterationTasks = function(iteration) {
 
 var completion = function(estimate, todo, s, e) {
     var completion = (Math.round((estimate - todo) / estimate * 100));
-    var total = e.weekDays(s) + 1;
-    var remaining = moment().isAfter(e) ? 0 : (e.weekDays(moment()) + 1);
+    var total = days(s,e);
+    var remaining = moment().isAfter(e) ? 0 : days(moment(),e);
     var remainingPct = Math.round((total - remaining) / total * 100);
     // console.log(total + " " + remaining + " " + remainingPct);
     var c = {};
@@ -182,6 +182,25 @@ var showTask = function(params) {
     });
 };
 
+var holidays = function(params) {
+    console.log('Configured holidays: ');
+    _.forEach(config.holidays, function(v, i) {
+        console.log(v);
+    })
+    console.log('Update the config.json to add or remove holidays');
+}
+
+var days = function(start, end) {
+    var param = {};
+    param.rangeStart = moment(start);
+    param.rangeEnd = moment(end);
+    param.weekdays = [1,2,3,4,5];
+    param.exclusions = _.transform(config.holidays, function(result, holiday) {
+         result.push(moment(holiday, 'DD MMM YYYY'));
+       }, []);
+    return moment().weekdayCalc(param) - 1;
+}
+
 var argv = require('minimist')(process.argv.slice(2));
 switch (argv._[0]) {
 case 'help':
@@ -192,6 +211,7 @@ case 'h':
     console.log('  it | iteration # View and change current iteration');
     console.log('  t  | task      # View and edit tasks');
     console.log('  o  | open      # Open rally in browser');
+    console.log('  d  | holidays  # Open rally in browser');
     console.log();
     break;
 case 'task':
@@ -205,7 +225,8 @@ case 't':
     } else if (!_.isNil(argv.t) || !_.isNil(argv.e) || !_.isNil(argv.a)) {
         updateTask(argv);
         break;
-    } else {
+    }
+    else {
         showTask(argv);
     }
     break;
@@ -224,6 +245,10 @@ case 'iteration':
         console.log('Current iteration is "%s"', config.currentItr);
         console.log('Change the iteration by running:\n\t rly it "New Iteration Name in double quotes"');
     }
+    break;
+case 'd':
+case 'holidays':
+    holidays(argv);
     break;
 default:
     listIterationTasks();
