@@ -47,64 +47,67 @@ var getTasks = function(query, callback) {
 var listIterationTasks = function(iteration) {
     console.log('Fetching iteration tasks...');
     // .and('FormattedID', '=', 'TA198752')
-    getTasks(
-        queryUtils.where('Owner.Name', '=', user).and('Iteration.Name', '=', iteration ? iteration : currentItr),
+    getTasks(queryUtils.where('Owner.Name', '=', user).and('Iteration.Name', '=', iteration ? iteration : currentItr),
         function(error, result) {
             if (error) {
                 console.log(error);
             } else {
-                // console.log(result.Results);
-                var totalEstimate = 0;
-                var totalTodo = 0;
-                console.log(hr);
-                console.log('         | Est | Todo | Act |');
-                console.log(hr);
-                for ( var i in result.Results) {
-                    var aResult = result.Results[i];
-                    // console.log(aResult);
-                    console.log('%s | %s | %s | %s | %s | %s | %s | %s', aResult.FormattedID, _.padEnd(
-                        aResult.Estimate, 3), _.padEnd(aResult.ToDo, 4), _.padEnd(aResult.Actuals, 3), colorizeOnState(
-                        _.padEnd(aResult.State, 12), aResult.State), _.padEnd(_.truncate(aResult.Name, {
-                        'length' : 70
-                    }), 70), aResult.WorkProduct.FormattedID, _.padEnd(_.truncate(aResult.WorkProduct.Name, {
-                        'length' : 70
-                    }), 70));
-                    totalEstimate += aResult.Estimate;
-                    totalTodo += aResult.ToDo;
-                }
-                console.log(hr);
-                // Fetch the iteration to check status
-                restApi
-                    .get(
-                        {
-                            ref : result.Results[0].Iteration._ref,
-                            fetch : [ 'Name', 'Description', 'EndDate', 'StartDate' ],
-                            scope : {
-                                project : project
-                            }
-                        },
-                        function(error, result) {
-                            var s = moment(result.Object.StartDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
-                            var e = moment(result.Object.EndDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
-
-                            var c = completion(totalEstimate, totalTodo, s, e);
-                            console
-                                .log(
-                                    'Total    | %s | %s | (% Completion: %s) | [%s <--> %s | Total: %s | Remaining: %s | %Time Completed: %s%]',
-                                    _.padEnd(totalEstimate, 3), _.padEnd(totalTodo, 3), c.remainingPctFormatted, s
-                                        .format('ddd, MMM Do'), e.format('ddd, MMM Do'), c.total, c.remaining,
-                                    c.remainingPct);
-                            console.log(hr);
-                        });
-
+                printTasks(result.Results, function(totalEstimate, totalTodo) {
+                    printTotals(result.Results[0].Iteration._ref, totalEstimate, totalTodo);
+                });
             }
         });
 };
 
+var printTasks = function(tasks, callback) {
+    var totalEstimate = 0;
+    var totalTodo = 0;
+    console.log(hr);
+    console.log('         | Est | Todo | Act |');
+    console.log(hr);
+    for ( var i in tasks) {
+        var aResult = tasks[i];
+        // console.log(aResult);
+        console.log('%s | %s | %s | %s | %s | %s | %s | %s', aResult.FormattedID, _.padEnd(aResult.Estimate, 3), _
+            .padEnd(aResult.ToDo, 4), _.padEnd(aResult.Actuals, 3), colorizeOnState(_.padEnd(aResult.State, 12),
+            aResult.State), _.padEnd(_.truncate(aResult.Name, {
+            'length' : 70
+        }), 70), aResult.WorkProduct.FormattedID, _.padEnd(_.truncate(aResult.WorkProduct.Name, {
+            'length' : 70
+        }), 70));
+        totalEstimate += aResult.Estimate;
+        totalTodo += aResult.ToDo;
+    }
+    console.log(hr);
+    if (callback)
+        callback(totalEstimate, totalTodo);
+}
+
+var printTotals = function(iterationRef, totalEstimate, totalTodo, callback) {
+    var totalsTemplate = 'Total    | %s | %s | (% Completion: %s) | [%s <--> %s | Total: %s | Remaining: %s | %Time Completed: %s%]';
+    restApi.get({
+        ref : iterationRef,
+        fetch : [ 'Name', 'Description', 'EndDate', 'StartDate' ],
+        scope : {
+            project : project
+        }
+    }, function(error, result) {
+        var s = moment(result.Object.StartDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
+        var e = moment(result.Object.EndDate, "YYYY-MM-DD'T'HH:mm:ss.SSSZ");
+
+        var c = completion(totalEstimate, totalTodo, s, e);
+        console.log(totalsTemplate, _.padEnd(totalEstimate, 3), _.padEnd(totalTodo, 3), c.remainingPctFormatted, s
+            .format('ddd, MMM Do'), e.format('ddd, MMM Do'), c.total, c.remaining, c.remainingPct);
+        console.log(hr);
+        if (callback)
+            callback();
+    });
+}
+
 var completion = function(estimate, todo, s, e) {
     var completion = (Math.round((estimate - todo) / estimate * 100));
-    var total = days(s,e);
-    var remaining = moment().isAfter(e) ? 0 : days(moment(),e);
+    var total = days(s, e);
+    var remaining = moment().isAfter(e) ? 0 : days(moment(), e);
     var remainingPct = Math.round((total - remaining) / total * 100);
     // console.log(total + " " + remaining + " " + remainingPct);
     var c = {};
@@ -194,10 +197,10 @@ var days = function(start, end) {
     var param = {};
     param.rangeStart = moment(start);
     param.rangeEnd = moment(end);
-    param.weekdays = [1,2,3,4,5];
+    param.weekdays = [ 1, 2, 3, 4, 5 ];
     param.exclusions = _.transform(config.holidays, function(result, holiday) {
-         result.push(moment(holiday, 'DD MMM YYYY'));
-       }, []);
+        result.push(moment(holiday, 'DD MMM YYYY'));
+    }, []);
     return moment().weekdayCalc(param) - 1;
 }
 
@@ -225,8 +228,7 @@ case 't':
     } else if (!_.isNil(argv.t) || !_.isNil(argv.e) || !_.isNil(argv.a)) {
         updateTask(argv);
         break;
-    }
-    else {
+    } else {
         showTask(argv);
     }
     break;
