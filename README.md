@@ -37,5 +37,6 @@ Available commands:
   it | iteration # View and change current iteration
   t  | task      # View and edit tasks
   o  | open      # Open rally in browser
+  d  | holidays  # Open rally in browser
   
 ```
