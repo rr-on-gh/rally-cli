@@ -5,12 +5,11 @@ var htmlToText = require('html-to-text');
 var moment = require('moment');
 var mb = require('moment-weekday-calc');
 var fs = require('fs');
+var config = require('config');
 
 var queryUtils = rally.util.query;
 var refUtils = rally.util.ref;
 
-var configFile = __dirname + '/config.json';
-var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 var restApi = rally({
     // API keys can be created/managed here:
     // https://rally1.rallydev.com/login/accounts/index.html#/keys
@@ -168,9 +167,6 @@ var updateTask = function(params) {
         }, function(error, result) {
             if (error) {
                 console.log(error);
-            } else {
-                // console.log(result.Object);
-                // listIterationTasks();
             }
         });
     });
