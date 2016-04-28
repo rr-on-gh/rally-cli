@@ -9,7 +9,6 @@ var config = require('config');
 
 var queryUtils = rally.util.query;
 var refUtils = rally.util.ref;
-
 var restApi = rally({
     // API keys can be created/managed here:
     // https://rally1.rallydev.com/login/accounts/index.html#/keys
@@ -21,7 +20,7 @@ var currentItr = config.currentItr;
 var project = config.project;
 var user = config.user;
 var uiLaunchCommand = config.uiLaunchCommand;
-
+var configFile = __dirname + '/config/default.json';
 var hr = '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
 
 var getTasks = function(query, callback) {
@@ -190,7 +189,7 @@ var holidays = function(params) {
     _.forEach(config.holidays, function(v, i) {
         console.log(v);
     })
-    console.log('Update the %s to add or remove holidays', (__dirname + '/config.json'));
+    console.log('Update %s to add or remove holidays', configFile);
 }
 
 var days = function(start, end) {
@@ -214,7 +213,7 @@ case 'h':
     console.log('  it | iteration # View and change current iteration');
     console.log('  t  | task      # View and edit tasks');
     console.log('  o  | open      # Open rally in browser');
-    console.log('  d  | holidays  # Open rally in browser');
+    console.log('  d  | holidays  # View the configured holidays');
     console.log();
     break;
 case 'task':
