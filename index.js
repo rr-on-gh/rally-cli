@@ -52,9 +52,13 @@ var listIterationTasks = function(iteration) {
             if (error) {
                 console.log(error);
             } else {
-                printTasks(result.Results, function(totalEstimate, totalTodo) {
-                    printTotals(result.Results[0].Iteration._ref, totalEstimate, totalTodo);
-                });
+                if(!_.isEmpty(result.Results)) {
+                    printTasks(result.Results, function(totalEstimate, totalTodo) {
+                        printTotals(result.Results[0].Iteration._ref, totalEstimate, totalTodo);
+                    });
+                } else {
+                    console.log('No tasks for %s in "%s"', user, iteration ? iteration : currentItr);
+                }
             }
         });
 };
