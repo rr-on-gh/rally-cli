@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "async": "^1.5.2",
     "config": "^1.20.1",
     "html-to-text": "^2.0.0",
     "lodash": "^4.6.1",

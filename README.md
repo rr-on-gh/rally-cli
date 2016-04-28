@@ -5,7 +5,7 @@
   * Provides a basic CLI based on Node.js
   * Not a full fledged client by any means
   * Does basic things like view iteration tasks, updating todos etc.
-  * Works only with one project at a time
+  * Works with multiple projects
   * This is how the interface looks like:
 ![](images/ss.png)
 
@@ -16,12 +16,29 @@
  
 ```
 {
-  "apiKey": "qweqweqwe",  // API keys can be created/managed here: https://rally1.rallydev.com/login/accounts/index.html#/keys
-  "currentItr": "PI 2 - Iteration 5", //Name of the Iteration
-  "project": "/project/47117499999", //Available in rally URL: https://rally1.rallydev.com/#/47117499999ud/iterationstatus
-  "user": "jdoe@acme.com", //Your email id 
-  "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117499999ud/custom/47826099999" //OS command to run to launch Rally in browser
+  "apiKey": "Refer README.md",  // API keys can be created/managed here: https://rally1.rallydev.com/login/accounts/index.html#/keys
+  "projects": [
+    {
+      "name": "name of the project 1 (need not match the name in Rally)",
+      "id": "/project/47117491111",  //Available in rally URL: https://rally1.rallydev.com/#/47117499999ud/iterationstatus
+      "url": "",
+      "currentItr": "PI 2 - Iteration IP" //Name of the Iteration (should match Rally)
+    },
+    {
+      "name": "name of the project 2 (need not match the name in Rally)",
+      "id": "/project/47349901112",
+      "url": "",
+      "currentItr": "PI 2 - Iteration IP"
+    }
+  ],
+  "user": "Refer README.md",  //Your email id
+  "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111", //OS command to run to launch Rally in browser
+  "holidays": [
+    "08 Apr 2016",
+    "14 Apr 2016"
+  ]
 }
+
 ```
   * Create an alias to the node command to launch the cli and add it to .bashrc or equivalent file
   

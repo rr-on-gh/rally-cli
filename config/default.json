@@ -1,8 +1,27 @@
 {
   "apiKey": "Refer README.md",
-  "currentItr": "Refer README.md",
-  "project": "Refer README.md",
+  "projects": [
+    {
+      "name": "name of the project 1 (need not match the name in Rally)",
+      "id": "/project/47117491111",
+      "url": "",
+      "currentItr": "PI 2 - Iteration IP"
+    },
+    {
+      "name": "name of the project 2 (need not match the name in Rally)",
+      "id": "/project/47349901112",
+      "url": "",
+      "currentItr": "PI 2 - Iteration IP"
+    }
+  ],
   "user": "Refer README.md",
-  "uiLaunchCommand": "Refer README.md",
-  "holidays": ["15 Aug 2015", "26 Jan 2016", "14 Apr 2016", "15 Apr 2016"]
+  "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111",
+  "holidays": [
+    "08 Apr 2016",
+    "14 Apr 2016",
+    "15 Apr 2016",
+    "27 Apr 2016",
+    "06 Jul 2016",
+    "15 Aug 2016"
+  ]
 }
