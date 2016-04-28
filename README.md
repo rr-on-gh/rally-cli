@@ -5,6 +5,7 @@
   * Provides a basic CLI based on Node.js
   * Not a full fledged client by any means
   * Does basic things like view iteration tasks, updating todos etc.
+  * Works only with one project at a time
   * This is how the interface looks like:
 ![](images/ss.png)
 
