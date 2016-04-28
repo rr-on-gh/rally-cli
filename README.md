@@ -5,6 +5,8 @@
   * Provides a basic CLI based on Node.js
   * Not a full fledged client by any means
   * Does basic things like view iteration tasks, updating todos etc.
+  * This is how the interface looks like:
+![](images/ss.png)
 
 ## Usage
   * Install Node.js (tested with v5.0.0, but might work with older versions as well)
