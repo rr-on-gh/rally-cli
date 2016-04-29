@@ -1,10 +1,14 @@
 {
   "name": "rally-cli",
   "version": "0.0.2",
-  "description": "",
+  "description": "Simple CLI tool for day-to-day interaction with rally",
   "preferGlobal": true,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/raks81/rally-cli.git"
   },
   "bin": {
     "rly": "index.js"
@@ -19,6 +23,9 @@
     "moment-weekday-calc": "^1.1.0",
     "rally": "^0.2.0"
   },
+  "scripts": {
+    "postinstall" : "echo 'Run \"rly help\" for initial configuration'"
+  },
   "author": "Rakshith Rao",
-  "license": "WTFPL - http://www.wtfpl.net/"
+  "license": "WTFPL"
 }
