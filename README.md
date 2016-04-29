@@ -10,6 +10,7 @@
 ![](https://raw.githubusercontent.com/raks81/rally-cli/master/images/ss.png)
 
 ## Usage
+  * Install npm globally `npm install rally-cli -g`
   * Launch the help options from CLI:
 
 ```
