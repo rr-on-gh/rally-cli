@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-process.env.NODE_CONFIG_DIR =  __dirname + '/config/';
+process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR ? process.env.NODE_CONFIG_DIR : __dirname + '/config/';
 
 var rally = require('rally');
 var _ = require('lodash');
