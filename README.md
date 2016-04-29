@@ -42,7 +42,7 @@ Available commands:
       "currentItr": "PI 2 - Iteration IP"
     }
   ],
-  "user": "Refer README.md",  //Your email id
+  "user": "",  //Your email id
   "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111", //OS command to run to launch Rally in browser
   "holidays": [
     "08 Apr 2016",
