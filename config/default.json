@@ -1,17 +1,13 @@
 {
-  "apiKey": "", //Refer README.md
+  "apiKey": "",
   "projects": [
     {
-      //name of the project 1 (need not match the name in Rally)
       "name": "",
-      ///project id in this format: project/47117491111
       "id": "",
       "currentItr": "PI 2 - Iteration IP"
     },
     {
-      //name of the project 2 (need not match the name in Rally)
       "name": "",
-      ///project id in this format: project/47117491111
       "id": "/project/47349901112",
       "currentItr": "PI 2 - Iteration IP"
     }
@@ -20,10 +16,6 @@
   "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111",
   "holidays": [
     "08 Apr 2016",
-    "14 Apr 2016",
-    "15 Apr 2016",
-    "27 Apr 2016",
-    "06 Jul 2016",
-    "15 Aug 2016"
+    "14 Apr 2016"
   ]
 }
