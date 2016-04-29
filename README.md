@@ -4,16 +4,29 @@
 ## Intro
   * Provides a basic CLI based on Node.js
   * Not a full fledged client by any means
-  * Does basic things like view iteration tasks, updating todos etc.
-  * Works with multiple projects
+  * Does basic things like view iteration tasks, updating task todos, estimates and actuals
+  * Works with multiple projects simultaneously
   * This is how the interface looks like:
 ![](https://raw.githubusercontent.com/raks81/rally-cli/master/images/ss.png)
 
 ## Usage
-  * Install Node.js (tested with v5.0.0, but might work with older versions as well)
-  * Clone the repo and run npm install to install the dependencies
-  * Modify the `config.js` file
- 
+  * Launch the help options from CLI:
+
+```
+bash-4.3$ rly help
+Usage: rly [ <command> ] [<args>]
+
+Minimal CLI for rally
+
+Available commands:
+  it | iteration # View and change current iteration
+  t  | task      # View and edit tasks
+  o  | open      # Open rally in browser
+  d  | holidays  # Open rally in browser
+
+```
+  * Update the config as explained below
+
 ```
 {
   "apiKey": "",  // API keys can be created/managed here: https://rally1.rallydev.com/login/accounts/index.html#/keys
@@ -37,19 +50,4 @@
   ]
 }
 
-```
-  * Launch the help options from CLI:
-  
-```  
-bash-4.3$ rly help
-Usage: rly [ <command> ] [<args>]
-
-Minimal CLI for rally
-
-Available commands:
-  it | iteration # View and change current iteration
-  t  | task      # View and edit tasks
-  o  | open      # Open rally in browser
-  d  | holidays  # Open rally in browser
-  
 ```
