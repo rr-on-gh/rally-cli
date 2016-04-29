@@ -2,7 +2,13 @@
   "name": "rally-cli",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "preferGlobal": true,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "rally": "index.js"
+  },
   "dependencies": {
     "async": "^1.5.2",
     "config": "^1.20.1",
@@ -13,10 +19,6 @@
     "moment-weekday-calc": "^1.1.0",
     "rally": "^0.2.0"
   },
-  "devDependencies": {},
-  "scripts": {
-    "start": "echo 'Create an alias to run index.js from CLI.\n\te.g.: alias rly=\"node /location/of/index.js\" \n\t      rly help\n'"
-  },
-  "author": "",
-  "license": "ISC"
+  "author": "Rakshith Rao",
+  "license": "WTFPL - http://www.wtfpl.net/"
 }

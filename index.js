@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+process.env.NODE_CONFIG_DIR =  __dirname + '/config/';
+
 var rally = require('rally');
 var _ = require('lodash');
 var exec = require('child_process').exec;
@@ -20,7 +23,7 @@ var currentItr = config.currentItr;
 // https://rally1.rallydev.com/#/47117499999ud/iterationstatus
 var user = config.user;
 var uiLaunchCommand = config.uiLaunchCommand;
-var configFile = __dirname + '/config/default.json';
+var configFile = process.env.NODE_CONFIG_DIR + '/default.json';
 var hr = '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
 var totalTodo = 0;
 var totalEstimate = 0;
