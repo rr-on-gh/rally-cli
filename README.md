@@ -14,6 +14,8 @@
 
 ```
 bash-4.3$ rly help
+Refer README.md of the project and update /usr/local/lib/node_modules/rally-cli/config/default.json file for initial configuration
+
 Usage: rly [ <command> ] [<args>]
 
 Minimal CLI for rally
@@ -22,7 +24,7 @@ Available commands:
   it | iteration # View and change current iteration
   t  | task      # View and edit tasks
   o  | open      # Open rally in browser
-  d  | holidays  # Open rally in browser
+  d  | holidays  # View the configured holidays
 
 ```
   * Update the config as explained below
