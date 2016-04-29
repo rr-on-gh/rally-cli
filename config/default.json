@@ -1,16 +1,18 @@
 {
-  "apiKey": "Refer README.md",
+  "apiKey": "", //Refer README.md
   "projects": [
     {
-      "name": "name of the project 1 (need not match the name in Rally)",
-      "id": "/project/47117491111",
-      "url": "",
+      //name of the project 1 (need not match the name in Rally)
+      "name": "",
+      ///project id in this format: project/47117491111
+      "id": "",
       "currentItr": "PI 2 - Iteration IP"
     },
     {
-      "name": "name of the project 2 (need not match the name in Rally)",
+      //name of the project 2 (need not match the name in Rally)
+      "name": "",
+      ///project id in this format: project/47117491111
       "id": "/project/47349901112",
-      "url": "",
       "currentItr": "PI 2 - Iteration IP"
     }
   ],

@@ -23,7 +23,7 @@ var currentItr = config.currentItr;
 // https://rally1.rallydev.com/#/47117499999ud/iterationstatus
 var user = config.user;
 var uiLaunchCommand = config.uiLaunchCommand;
-var configFile = process.env.NODE_CONFIG_DIR + '/default.json';
+var configFile = process.env.NODE_CONFIG_DIR + 'default.json';
 var hr = '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
 var totalTodo = 0;
 var totalEstimate = 0;
@@ -233,6 +233,7 @@ var argv = require('minimist')(process.argv.slice(2));
 switch (argv._[0]) {
 case 'help':
 case 'h':
+    console.log('\x1b[33m' + 'Refer README.md of the project and update %s file for initial configuration\n' + '\x1b[0m', configFile);
     console.log('Usage: rly [ <command> ] [<args>]');
     console.log('\nMinimal CLI for rally\n');
     console.log('Available commands:');

@@ -7,7 +7,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "bin": {
-    "rally": "index.js"
+    "rly": "index.js"
   },
   "dependencies": {
     "async": "^1.5.2",

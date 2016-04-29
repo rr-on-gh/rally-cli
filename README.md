@@ -7,7 +7,7 @@
   * Does basic things like view iteration tasks, updating todos etc.
   * Works with multiple projects
   * This is how the interface looks like:
-![](images/ss.png)
+![](https://raw.githubusercontent.com/raks81/rally-cli/master/images/ss.png)
 
 ## Usage
   * Install Node.js (tested with v5.0.0, but might work with older versions as well)
@@ -16,18 +16,16 @@
  
 ```
 {
-  "apiKey": "Refer README.md",  // API keys can be created/managed here: https://rally1.rallydev.com/login/accounts/index.html#/keys
+  "apiKey": "",  // API keys can be created/managed here: https://rally1.rallydev.com/login/accounts/index.html#/keys
   "projects": [
     {
       "name": "name of the project 1 (need not match the name in Rally)",
       "id": "/project/47117491111",  //Available in rally URL: https://rally1.rallydev.com/#/47117499999ud/iterationstatus
-      "url": "",
       "currentItr": "PI 2 - Iteration IP" //Name of the Iteration (should match Rally)
     },
     {
       "name": "name of the project 2 (need not match the name in Rally)",
       "id": "/project/47349901112",
-      "url": "",
       "currentItr": "PI 2 - Iteration IP"
     }
   ],
@@ -39,11 +37,6 @@
   ]
 }
 
-```
-  * Create an alias to the node command to launch the cli and add it to .bashrc or equivalent file
-  
-```
-alias rly="node /location/of/index.js"
 ```
   * Launch the help options from CLI:
   
