@@ -23,6 +23,7 @@ var currentItr = config.currentItr;
 // https://rally1.rallydev.com/#/47117499999ud/iterationstatus
 var user = config.user;
 var uiLaunchCommand = config.uiLaunchCommand;
+var rallySearchCommand = config.rallySearchCommand;
 var configFile = process.env.NODE_CONFIG_DIR + 'default.json';
 var hr = _.repeat('-', process.stdout.columns);
 var header = ' Task ID | Est | Todo | Act | Status       |';
@@ -265,7 +266,11 @@ switch (argv._[0]) {
         break;
     case 'open':
     case 'o':
+    if(argv._[1]) {
+        exec(rallySearchCommand.replace('${keyword}', argv._[1]));
+    } else {
         exec(uiLaunchCommand);
+    }
         break;
     case 'it':
     case 'iteration':

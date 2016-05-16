@@ -14,6 +14,7 @@
   ],
   "user": "Refer README.md",
   "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111",
+  "rallySearchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/search?keywords=${keyword}",
   "holidays": [
     "08 Apr 2016",
     "14 Apr 2016"
