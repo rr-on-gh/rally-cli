@@ -47,6 +47,7 @@ Available commands:
   ],
   "user": "",  //Your email id
   "uiLaunchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/custom/47826051111", //OS command to run to launch Rally in browser
+  "rallySearchCommand": "open -a Firefox https://rally1.rallydev.com/#/47117491111ud/search?keywords=${keyword}",  //OS command to search in Rally in browser
   "holidays": [
     "08 Apr 2016",
     "14 Apr 2016"
